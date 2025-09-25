@@ -306,31 +306,22 @@
             <button id="lightbox-fullscreen" class="hidden absolute top-2 left-2 z-30 bg-black/30 text-white h-8 w-8 rounded-full flex items-center justify-center hover:bg-black/50 transition-all backdrop-blur-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 1v4m0 0h-4m4 0l-5-5" /></svg>
             </button>
-            <div id="lightbox-body" class="p-1 md:p-2 flex-grow flex items-center justify-center relative w-full h-full">
+            <div id="lightbox-body" class="p-1 md:p-2 flex-grow flex items-center justify-center relative w-full h-full min-h-0">
                 <!-- Content (Image or Iframe) will be injected here -->
-                <!-- Info Overlay for Galleries -->
-                <div id="lightbox-info-overlay" class="hidden absolute bottom-1 md:bottom-2 left-1 md:left-2 right-1 md:right-2 p-4 bg-black/70 rounded-lg text-white backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none">
-                    <div class="flex justify-between items-start gap-4">
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-lg mb-1 text-primary lightbox-title"></h4>
-                            <p class="text-sm text-slate-200 mb-2 leading-snug lightbox-description"></p>
-                            <div class="flex items-center text-xs">
-                                <span class="font-semibold mr-2 text-slate-100 flex-shrink-0 whitespace-nowrap">Software:</span>
-                                <span class="bg-slate-200/20 text-slate-100 px-2 py-0.5 rounded-md font-medium lightbox-software"></span>
-                            </div>
-                        </div>
-                        <div class="text-sm text-slate-300 whitespace-nowrap flex-shrink-0 lightbox-counter"></div>
-                    </div>
-                </div>
             </div>
-            <!-- Info Below for Videos -->
-            <div id="lightbox-info-below" class="hidden p-4 border-t border-slate-200 w-full text-left">
-                <h4 class="font-bold text-lg mb-1 text-primary lightbox-title"></h4>
-                <p class="text-sm text-slate-700 mb-2 lightbox-description"></p>
-                <div class="flex items-center text-xs">
-                   <span class="font-semibold mr-2 text-slate-800 flex-shrink-0 whitespace-nowrap">Software:</span>
-                   <span class="bg-slate-200 text-slate-800 px-2 py-0.5 rounded-md font-medium lightbox-software"></span>
-               </div>
+            <!-- Unified Info Box -->
+            <div id="lightbox-info" class="hidden p-4 border-t border-slate-200 w-full text-left">
+                 <div class="flex justify-between items-start gap-4">
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-lg mb-1 text-primary lightbox-title"></h4>
+                        <p class="text-sm text-slate-700 mb-2 lightbox-description"></p>
+                        <div class="flex items-center text-xs">
+                           <span class="font-semibold mr-2 text-slate-800 flex-shrink-0 whitespace-nowrap">Software:</span>
+                           <span class="bg-slate-200 text-slate-800 px-2 py-0.5 rounded-md font-medium lightbox-software"></span>
+                       </div>
+                    </div>
+                    <div class="text-sm text-slate-500 whitespace-nowrap flex-shrink-0 lightbox-counter"></div>
+                </div>
             </div>
              <!-- Gallery Controls -->
             <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
@@ -520,8 +511,7 @@
         const lightboxFullscreen = document.getElementById('lightbox-fullscreen');
         const lightboxPrev = document.getElementById('lightbox-prev');
         const lightboxNext = document.getElementById('lightbox-next');
-        const lightboxInfoOverlay = document.getElementById('lightbox-info-overlay');
-        const lightboxInfoBelow = document.getElementById('lightbox-info-below');
+        const lightboxInfo = document.getElementById('lightbox-info');
         
         // Selectors for all info elements
         const lightboxTitles = document.querySelectorAll('.lightbox-title');
@@ -548,9 +538,9 @@
             const img = document.createElement('img');
             img.src = currentGallery[currentIndex];
             img.alt = `Portfolio image ${currentIndex + 1}`;
-            img.className = "max-w-full max-h-[88vh] object-contain mx-auto rounded-md animate-fade-in";
+            img.className = "max-w-full max-h-full object-contain mx-auto rounded-md animate-fade-in";
             
-            lightboxBody.insertBefore(img, lightboxInfoOverlay);
+            lightboxBody.appendChild(img);
 
             lightboxCounters.forEach(el => el.textContent = `${currentIndex + 1} / ${currentGallery.length}`);
             
@@ -579,22 +569,19 @@
             lightboxFullscreen.classList.add('hidden');
 
             populateInfo(item);
+            lightboxInfo.classList.remove('hidden');
             
             if (item.type === 'video' || item.type === 'vr-ar') {
-                lightboxInfoOverlay.classList.add('hidden');
-                lightboxInfoBelow.classList.remove('hidden');
-
                 if (item.src === '#') {
                     lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full flex items-center justify-center text-center p-4 bg-slate-100 rounded-md"><p class="font-medium">The video for this project is currently unavailable.</p></div>`);
-                    lightboxInfoBelow.classList.add('hidden');
+                    lightboxInfo.classList.add('hidden');
                 } else {
                     const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
                     lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
                     lightboxFullscreen.classList.remove('hidden');
                 }
+                lightboxCounters.forEach(el => el.textContent = '');
             } else if (item.type === 'gallery') {
-                lightboxInfoOverlay.classList.remove('hidden');
-                lightboxInfoBelow.classList.add('hidden');
                 currentGallery = item.src;
                 showGalleryImage(0);
             }
@@ -603,9 +590,6 @@
             setTimeout(() => {
                 lightbox.style.opacity = '1';
                 lightboxContent.style.transform = 'scale(1)';
-                if (item.type === 'gallery') {
-                    lightboxInfoOverlay.classList.add('opacity-100', 'pointer-events-auto');
-                }
             }, 10);
         };
 
@@ -628,9 +612,7 @@
                 
                 // Reset gallery and hide info
                 currentGallery = [];
-                lightboxInfoOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-                lightboxInfoOverlay.classList.add('hidden');
-                lightboxInfoBelow.classList.add('hidden');
+                lightboxInfo.classList.add('hidden');
                 lightboxFullscreen.classList.add('hidden');
             }, 300);
         };
@@ -687,6 +669,7 @@
     </script>
 </body>
 </html>
+
 
 
 
