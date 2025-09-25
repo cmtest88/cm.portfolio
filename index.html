@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CM Archviz Studio - by Charles Manila | Architectural Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="CM Archviz Studio, led by Charles Manila, specializes in creating photorealistic renderings, animations, and immersive VR/AR experiences that bring architectural designs to life.">
+    <meta name="keywords" content="Architectural Visualization, Archviz, 3D Rendering, Photorealistic Renders, Architectural Animation, VR for Architecture, AR for Architecture, Charles Manila, Twinmotion, V-Ray, D5 Render, Lumion, Enscape, Unreal Engine">
+    <meta name="author" content="Charles Manila">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>CM</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles and Theme Configuration -->
+    <style>
+        :root {
+            --primary-light: #1e3a8a; /* A professional blue */
+            --secondary-light: #3b82f6;
+            --background-light: #f1f5f9; /* Off-white */
+            --text-light: #0f172a; /* Slate 900 */
+            --card-light: #ffffff;
+
+            --primary-dark: #60a5fa; /* Lighter blue for dark mode */
+            --secondary-dark: #3b82f6;
+            --background-dark: #0f172a; /* Slate 900 */
+            --text-dark: #e2e8f0; /* Slate 200 */
+            --card-dark: #1e293b; /* Slate 800 */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .dark body {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+        }
+
+        /* Component-specific transitions */
+        .bg-card { background-color: var(--card-light); transition: background-color 0.5s ease; }
+        .dark .bg-card { background-color: var(--card-dark); }
+        .text-primary { color: var(--primary-light); }
+        .dark .text-primary { color: var(--primary-dark); }
+        .bg-primary { background-color: var(--primary-light); }
+        .dark .bg-primary { background-color: var(--primary-dark); }
+        .border-primary { border-color: var(--primary-light); }
+        .dark .border-primary { border-color: var(--primary-dark); }
+        .ring-primary { ring-color: var(--primary-light); }
+        .dark .ring-primary { ring-color: var(--primary-dark); }
+        .hover\:bg-secondary:hover { background-color: var(--secondary-light); }
+        .dark .hover\:bg-secondary:hover { background-color: var(--secondary-dark); }
+        .hover\:text-primary:hover { color: var(--primary-light); }
+        .dark .hover\:text-primary:hover { color: var(--primary-dark); }
+        
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        .dark ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        .dark .dark::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Fade-in animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Keyframe for image fade-in in lightbox */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-card transition-opacity duration-500">
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-primary tracking-wider">CM Archviz Studio</h1>
+            <p class="text-sm text-slate-700 dark:text-slate-400">by Charles Manila</p>
+        </div>
+        <div class="absolute bottom-10 w-32 h-1 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div id="preloader-bar" class="h-full bg-primary rounded-full w-0 transition-all duration-300"></div>
+        </div>
+    </div>
+
+    <!-- Scroll-to-top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-white shadow-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 opacity-0 translate-y-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#home" class="group cursor-pointer">
+                <div class="transition-transform duration-300 group-hover:scale-105">
+                    <h1 class="text-xl md:text-2xl font-bold text-primary tracking-wider">CM Archviz Studio</h1>
+                    <p class="text-xs text-slate-800 dark:text-slate-400 -mt-1">by Charles Manila</p>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="hover:text-primary transition-colors duration-300">Home</a>
+                <a href="#about" class="hover:text-primary transition-colors duration-300">About</a>
+                <a href="#portfolio" class="hover:text-primary transition-colors duration-300">Portfolio</a>
+                <a href="#contact" class="hover:text-primary transition-colors duration-300">Contact</a>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-300">
+                    <!-- Sun and Moon Icons -->
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-300">
+                    <!-- Icons will be injected by JS -->
+                </button>
+                <button id="mobile-menu-button" class="p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-card/95 backdrop-blur-sm">
+            <a href="#home" class="block py-2 px-6 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 mobile-nav-link">Home</a>
+            <a href="#about" class="block py-2 px-6 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 mobile-nav-link">About</a>
+            <a href="#portfolio" class="block py-2 px-6 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 mobile-nav-link">Portfolio</a>
+            <a href="#contact" class="block py-2 px-6 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 mobile-nav-link">Contact</a>
+        </div>
+    </header>
+
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center text-white bg-cover bg-center bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop');">
+            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div class="relative z-10 text-center p-6 fade-in-section">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+                    Bringing Architecture to Life Through Visualization
+                </h1>
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-200 mb-8" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);">
+                    Photorealistic renderings, animations, and immersive VR/AR experiences.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#portfolio" class="w-full sm:w-auto px-8 py-3 bg-primary border border-transparent rounded-md font-semibold text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 ring-primary transition-all duration-300 transform hover:scale-105">
+                        View Portfolio
+                    </a>
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-3 bg-transparent border-2 border-white rounded-md font-semibold text-white hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-all duration-300 transform hover:scale-105">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 lg:py-32">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-5 gap-12 items-center">
+                    <div class="lg:col-span-2 fade-in-section">
+                        <img src="images/cm1.jpg" alt="Charles Manila" class="rounded-lg shadow-2xl w-full h-auto object-cover aspect-square">
+                    </div>
+                    <div class="lg:col-span-3 fade-in-section">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary">About Me</h2>
+                        <p class="mb-6 text-black dark:text-slate-300 leading-relaxed font-medium">
+                            I'm Charles Manila, an architectural visualization specialist passionate about transforming architectural concepts into stunning, lifelike visuals. With a keen eye for detail, composition, and lighting, I help architects, designers, and developers communicate their vision with impact and clarity. My expertise spans from static photorealistic renderings to dynamic animations and fully immersive virtual reality experiences.
+                        </p>
+                        <a href="https://drive.google.com/uc?export=download&id=12SxFbSkR7XTgg5gLyMgxPTuDgSoec3Bm" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 bg-primary text-white rounded-md font-semibold hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 transform hover:scale-105">
+                            Download Resume
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools Section -->
+                <div class="mt-20 fade-in-section">
+                    <h3 class="text-2xl font-bold text-center mb-10">Tools & Software</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+                        <!-- Tools will be injected by JS -->
+                        <div id="tools-container" class="flex flex-wrap justify-center items-center gap-4 md:gap-6"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 lg:py-32 bg-slate-50 dark:bg-slate-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-section">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary">My Portfolio</h2>
+                    <p class="max-w-2xl mx-auto text-black dark:text-slate-300 font-medium">A selection of my work across various categories.</p>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div id="filter-buttons" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 fade-in-section">
+                    <button class="filter-btn active px-4 py-2 text-sm md:text-base font-semibold rounded-md transition-all duration-300" data-filter="all">All</button>
+                    <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-md transition-all duration-300" data-filter="exteriors">Exteriors</button>
+                    <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-md transition-all duration-300" data-filter="interiors">Interiors</button>
+                    <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-md transition-all duration-300" data-filter="animations">Animations</button>
+                    <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold rounded-md transition-all duration-300" data-filter="vr-ar">Interactive VR/AR</button>
+                </div>
+                
+                <style>
+                    .filter-btn {
+                        background-color: var(--card-light);
+                        color: var(--text-light);
+                        border: 1px solid #e2e8f0; /* slate-200 */
+                    }
+                    .dark .filter-btn {
+                        background-color: var(--card-dark);
+                        color: var(--text-dark);
+                        border-color: #334155; /* slate-700 */
+                    }
+                    .filter-btn.active {
+                        background-color: var(--primary-light);
+                        color: white;
+                        border-color: var(--primary-light);
+                    }
+                    .dark .filter-btn.active {
+                        background-color: var(--primary-dark);
+                        color: var(--background-dark);
+                        border-color: var(--primary-dark);
+                    }
+                </style>
+
+                <!-- Portfolio Grid -->
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Portfolio items will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 lg:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-section">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary">Get In Touch</h2>
+                    <p class="max-w-2xl mx-auto text-black dark:text-slate-300 font-medium">Have a project in mind? Let's talk about how I can bring your vision to life.</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 fade-in-section">
+                    <div class="bg-card p-8 rounded-lg shadow-md flex items-center gap-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <div>
+                            <h3 class="font-semibold text-lg">Email</h3>
+                            <a href="mailto:manilacharles8@gmail.com" class="text-black dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">manilacharles8@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="bg-card p-8 rounded-lg shadow-md flex items-center gap-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <div>
+                            <h3 class="font-semibold text-lg">Phone / WhatsApp</h3>
+                            <a href="tel:0994815218" class="text-black dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">0994 815 218</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center fade-in-section">
+                    <p class="mb-4">Or connect with me on social media:</p>
+                    <div id="contact-socials" class="flex justify-center space-x-6">
+                        <!-- Social icons injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-card py-8">
+        <div class="container mx-auto px-6 text-center text-black dark:text-slate-400">
+            <div class="mb-4">
+                <h3 class="text-lg font-bold text-primary">CM Archviz Studio</h3>
+                <p class="text-sm">by Charles Manila</p>
+            </div>
+            <div id="footer-socials" class="flex justify-center space-x-6 mb-4">
+                <!-- Social icons injected by JS -->
+            </div>
+            <p class="text-sm">&copy; 2025 CM Archviz Studio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden transition-opacity duration-300">
+        <div id="lightbox-content" class="bg-card rounded-lg shadow-2xl relative w-full max-w-5xl max-h-[90vh] transform scale-95 transition-transform duration-300 flex flex-col">
+            <button id="lightbox-close" class="absolute -top-3 -right-3 md:top-2 md:right-2 z-30 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all">&times;</button>
+            <div id="lightbox-body" class="p-2 md:p-4 flex-grow flex items-center justify-center relative">
+                <!-- Content (Image or Iframe) will be injected here -->
+            </div>
+             <!-- Gallery Controls -->
+            <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
+            <button id="lightbox-next" class="hidden absolute right-2 md:right-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&gt;</button>
+            <div id="lightbox-counter" class="hidden absolute bottom-[calc(0%+90px)] md:bottom-20 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded-md"></div>
+            <!-- Info Section -->
+            <div id="lightbox-info" class="p-4 border-t border-slate-200 dark:border-slate-700 w-full text-left max-h-[80px] overflow-y-auto">
+                 <h4 id="lightbox-title" class="font-bold text-lg mb-1 text-primary"></h4>
+                 <p id="lightbox-description" class="text-sm text-slate-700 dark:text-slate-300 mb-2"></p>
+                 <div class="flex items-center text-xs">
+                    <span class="font-semibold mr-2 text-slate-800 dark:text-slate-200">Software:</span>
+                    <span id="lightbox-software" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md font-medium"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- DATA ---
+        const socialLinks = {
+            facebook: { url: 'https://www.facebook.com/', icon: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>` },
+            linkedin: { url: 'https://www.linkedin.com/', icon: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>` },
+            youtube: { url: 'https://www.youtube.com/', icon: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.78 22 12 22 12s0 3.22-.42 4.814a2.506 2.506 0 0 1-1.768 1.768c-1.594.42-7.812.42-7.812.42s-6.218 0-7.812-.42a2.506 2.506 0 0 1-1.768-1.768C2 15.22 2 12 2 12s0-3.22.42-4.814a2.506 2.506 0 0 1 1.768-1.768C5.782 5 12 5 12 5s6.218 0 7.812.418ZM9.92 15.118V8.882l5.42 3.118-5.42 3.118Z" clip-rule="evenodd" /></svg>` },
+            whatsapp: { url: 'tel:0994815218', icon: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>` },
+        };
+        
+        const tools = [
+            { name: 'Twinmotion', icon: 'T' },
+            { name: 'V-Ray', icon: 'V' },
+            { name: 'D5 Render', icon: 'D5' },
+            { name: 'Lumion', icon: 'L' },
+            { name: 'Enscape', icon: 'E' },
+            { name: 'Unreal Engine', icon: 'U' },
+            { name: 'AutoCAD', icon: 'A' },
+            { name: 'Revit', icon: 'R' },
+            { name: 'SketchUp', icon: 'S' },
+        ];
+        
+        const portfolioItems = [
+            { title: 'Modern Farm House', category: 'exteriors', type: 'gallery', src: ['images/fh1.jpg', 'images/fh2.jpg', 'images/fh3.jpg'], thumbnail: 'images/fh1.jpg', description: 'A charming Modern Farm House visualization, emphasizing rustic materials with a clean, contemporary design.', software: 'Twinmotion' },
+            { title: 'Zinco Office', category: 'interiors', type: 'gallery', src: ['images/zo1.jpg', 'images/zo2.jpg', 'images/zo3.jpg', 'images/zo4.jpg', 'images/zo5.jpg', 'images/zo6.jpg', 'images/zo7.jpg', 'images/zo8.jpg'], thumbnail: 'images/zo1.jpg', description: 'A professional and sleek interior rendering of the Zinco Office, focusing on lighting and modern finishes.', software: 'D5 Render' },
+            { title: 'Bungalow Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1n_HTmqzmph8vnPTXrzJNOAbys7AfPe3Z/preview', thumbnail: 'images/bw_thumb.jpg', description: 'An animated walkthrough of a cozy bungalow, showcasing fluid movement and realistic environmental effects.', software: 'Lumion' },
+            { title: 'Modern Villa', category: 'exteriors', type: 'gallery', src: ['images/mv1.jpg', 'images/mv2.jpg', 'images/mv3.jpg', 'images/mv4.jpg'], thumbnail: 'images/mv1.jpg', description: 'A luxurious Modern Villa rendering, highlighting the interplay between architecture and the natural landscape.', software: 'V-Ray' },
+            { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://drive.google.com/file/d/15xRvS4w76hGkQGMsUOx2YHZd_Nulv3t9/preview', thumbnail: 'images/vr_thumb.jpg', description: 'An interactive virtual reality experience, allowing users to explore a detailed architectural space in real-time.', software: 'Twinmotion' },
+            { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['images/sm1.jpg', 'images/sm2.jpg', 'images/sm3.jpg', 'images/sm4.jpg', 'images/sm5.jpg', 'images/sm6.jpg'], thumbnail: 'images/sm1.jpg', description: 'Detailed interior shots of a 2-Storey Modern House, focusing on material textures and interior design.', software: 'Enscape' },
+            { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['images/ph1.jpg', 'images/ph2.jpg', 'images/ph3.jpg', 'images/ph4.jpg'], thumbnail: 'images/ph1.jpg', description: 'A serene visualization of a modern Pool House, capturing the relaxing ambiance of the poolside environment.', software: 'Unreal Engine' },
+            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EI1iNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: 'images/sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
+            { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['images/ch1.jpg', 'images/ch2.jpg', 'images/ch3.jpg', 'images/ch4.jpg'], thumbnail: 'images/ch1.jpg', description: 'A striking visualization of a Contemporary House, defined by bold lines and minimalist aesthetics.', software: 'V-Ray' },
+            { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1Yrn2ipwFKDLcc6TVepIHX-bK8Hvr68Yl/preview', thumbnail: 'images/zo_thumb.jpg', description: 'A cinematic tour through the Zinco Office space, demonstrating the layout and design in a dynamic format.', software: 'Lumion' },
+        ];
+
+
+        // --- PRELOADER ---
+        const preloader = document.getElementById('preloader');
+        const preloaderBar = document.getElementById('preloader-bar');
+        window.addEventListener('load', () => {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 20;
+                preloaderBar.style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        preloader.style.opacity = '0';
+                        preloader.style.pointerEvents = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 400);
+                }
+            }, 100);
+        });
+        document.body.style.overflow = 'hidden';
+
+        // --- THEME TOGGLE ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`;
+        const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`;
+        
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                themeToggle.innerHTML = sunIcon;
+                themeToggleMobile.innerHTML = sunIcon;
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggle.innerHTML = moonIcon;
+                themeToggleMobile.innerHTML = moonIcon;
+            }
+        };
+
+        const toggleTheme = () => {
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
+
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+
+        applyTheme(localStorage.getItem('theme') || 'dark');
+
+
+        // --- DYNAMIC CONTENT INJECTION ---
+        const createSocialLinks = (containerId) => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            Object.values(socialLinks).forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+                a.innerHTML = link.icon;
+                a.className = "text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-all duration-300 transform hover:scale-110";
+                container.appendChild(a);
+            });
+        }
+        createSocialLinks('contact-socials');
+        createSocialLinks('footer-socials');
+        
+        const toolsContainer = document.getElementById('tools-container');
+        tools.forEach(tool => {
+            toolsContainer.innerHTML += `
+                <div class="bg-card border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105" title="${tool.name}">
+                   <span class="font-semibold text-black dark:text-slate-200 font-medium">${tool.name}</span>
+                </div>
+            `;
+        });
+        
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        portfolioItems.forEach((item, index) => {
+            const itemEl = document.createElement('div');
+            itemEl.className = `portfolio-item group relative rounded-lg overflow-hidden shadow-lg cursor-pointer fade-in-section bg-card`;
+            itemEl.dataset.category = item.category;
+            itemEl.dataset.index = index;
+            
+            const thumbnailUrl = item.thumbnail || (Array.isArray(item.src) ? item.src[0] : 'https://placehold.co/600x400/0f172a/60a5fa?text=Video');
+
+            itemEl.innerHTML = `
+                <img src="${thumbnailUrl}" alt="${item.title}" class="w-full h-60 object-cover transform transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-500 flex items-center justify-center">
+                    <div class="text-center text-white p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <h3 class="font-bold text-lg">${item.title}</h3>
+                        <p class="text-sm capitalize">${item.category.replace('-', '/')}</p>
+                    </div>
+                    ${item.type === 'video' || item.type === 'vr-ar' ? `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div>` : ''}
+                    ${item.type === 'gallery' ? `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg></div>` : ''}
+                </div>
+            `;
+            portfolioGrid.appendChild(itemEl);
+        });
+
+
+        // --- STICKY HEADER ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-card/80', 'shadow-md', 'backdrop-blur-sm');
+            } else {
+                header.classList.remove('bg-card/80', 'shadow-md', 'backdrop-blur-sm');
+            }
+        });
+
+        // --- MOBILE MENU ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // --- PORTFOLIO FILTERING ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItemsElements = document.querySelectorAll('.portfolio-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Filter items
+                portfolioItemsElements.forEach(item => {
+                    item.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                    item.style.transform = 'scale(0.9)';
+                    item.style.opacity = '0';
+                    item.style.display = 'none';
+
+                    setTimeout(() => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                            setTimeout(() => {
+                                item.style.transform = 'scale(1)';
+                                item.style.opacity = '1';
+                            }, 50);
+                        }
+                    }, 300);
+                });
+            });
+        });
+
+        // --- LIGHTBOX ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxContent = document.getElementById('lightbox-content');
+        const lightboxBody = document.getElementById('lightbox-body');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxInfo = document.getElementById('lightbox-info');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDescription = document.getElementById('lightbox-description');
+        const lightboxSoftware = document.getElementById('lightbox-software');
+
+        let currentGallery = [];
+        let currentIndex = 0;
+
+        const showGalleryImage = (index) => {
+            if (index < 0 || index >= currentGallery.length) return;
+            currentIndex = index;
+            lightboxBody.innerHTML = `<img src="${currentGallery[currentIndex]}" alt="Portfolio image ${currentIndex + 1}" class="max-w-full max-h-[80vh] object-contain mx-auto rounded-md animate-fade-in">`;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+            
+            lightboxPrev.classList.toggle('hidden', currentIndex === 0);
+            lightboxNext.classList.toggle('hidden', currentIndex === currentGallery.length - 1);
+        };
+
+        lightboxPrev.addEventListener('click', () => {
+            if (currentIndex > 0) showGalleryImage(currentIndex - 1);
+        });
+
+        lightboxNext.addEventListener('click', () => {
+            if (currentIndex < currentGallery.length - 1) showGalleryImage(currentIndex + 1);
+        });
+        
+        const openLightbox = (item) => {
+            lightboxPrev.classList.add('hidden');
+            lightboxNext.classList.add('hidden');
+            lightboxCounter.classList.add('hidden');
+
+            // Populate Info Section
+            lightboxTitle.textContent = item.title;
+            lightboxDescription.textContent = item.description;
+            lightboxSoftware.textContent = item.software;
+            lightboxInfo.classList.remove('hidden');
+
+            if (item.type === 'image') {
+                lightboxBody.innerHTML = `<img src="${item.src}" alt="${item.title}" class="max-w-full max-h-[calc(85vh-80px)] object-contain mx-auto rounded-md">`;
+            } else if (item.type === 'video') {
+                const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
+                lightboxBody.innerHTML = `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+            } else if (item.type === 'gallery') {
+                currentGallery = item.src;
+                lightboxCounter.classList.remove('hidden');
+                // Adjust image max height to account for info box
+                lightboxBody.innerHTML = `<img src="${currentGallery[0]}" alt="${item.title}" class="max-w-full max-h-[calc(80vh-80px)] object-contain mx-auto rounded-md animate-fade-in">`;
+                showGalleryImage(0);
+            }
+            
+            lightbox.classList.remove('hidden');
+            setTimeout(() => {
+                lightbox.style.opacity = '1';
+                lightboxContent.style.transform = 'scale(1)';
+            }, 10);
+        };
+
+        portfolioGrid.addEventListener('click', (e) => {
+            const itemEl = e.target.closest('.portfolio-item');
+            if (itemEl) {
+                const item = portfolioItems[itemEl.dataset.index];
+                openLightbox(item);
+            }
+        });
+        
+        const closeLightbox = () => {
+            lightbox.style.opacity = '0';
+            lightboxContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightboxBody.innerHTML = ''; // Stop video playback and clear content
+                currentGallery = []; // Reset gallery
+            }, 300);
+        };
+        
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('hidden')) return;
+            
+            if (e.key === "Escape") {
+                closeLightbox();
+            } else if (e.key === "ArrowRight" && currentGallery.length > 0) {
+                lightboxNext.click();
+            } else if (e.key === "ArrowLeft" && currentGallery.length > 0) {
+                lightboxPrev.click();
+            }
+        });
+        
+
+        // --- SCROLL-TO-TOP BUTTON ---
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.style.opacity = '1';
+                scrollToTopBtn.style.transform = 'translateY(0)';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+                scrollToTopBtn.style.transform = 'translateY(1rem)';
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // --- SCROLL ANIMATIONS (FADE-IN) ---
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+    });
+    </script>
+</body>
+</html>
+
+
