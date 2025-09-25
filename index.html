@@ -189,7 +189,7 @@
             <div class="container mx-auto px-6">
                 <div class="grid lg:grid-cols-5 gap-12 items-center">
                     <div class="lg:col-span-2 fade-in-section">
-                        <img src="images/cm1.jpg" alt="Charles Manila" class="rounded-lg shadow-2xl w-full h-auto object-cover aspect-square">
+                        <img src="./images/cm1.jpg" alt="Charles Manila" class="rounded-lg shadow-2xl w-full h-auto object-cover aspect-square">
                     </div>
                     <div class="lg:col-span-3 fade-in-section">
                         <h2 class="text-3xl md:text-4xl font-bold mb-4 text-primary">About Me</h2>
@@ -309,24 +309,28 @@
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden transition-opacity duration-300">
-        <div id="lightbox-content" class="bg-card rounded-lg shadow-2xl relative w-full max-w-5xl max-h-[90vh] transform scale-95 transition-transform duration-300 flex flex-col">
+        <div id="lightbox-content" class="bg-card rounded-lg shadow-2xl relative w-full max-w-6xl max-h-[90vh] transform scale-95 transition-transform duration-300 flex flex-col">
             <button id="lightbox-close" class="absolute -top-3 -right-3 md:top-2 md:right-2 z-30 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all">&times;</button>
-            <div id="lightbox-body" class="p-2 md:p-4 flex-grow flex items-center justify-center relative">
+            <div id="lightbox-body" class="p-1 md:p-2 flex-grow flex items-center justify-center relative w-full h-full">
                 <!-- Content (Image or Iframe) will be injected here -->
-            </div>
-             <!-- Gallery Controls -->
-            <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
-            <button id="lightbox-next" class="hidden absolute right-2 md:right-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&gt;</button>
-            <div id="lightbox-counter" class="hidden absolute bottom-[calc(0%+90px)] md:bottom-20 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded-md"></div>
-            <!-- Info Section -->
-            <div id="lightbox-info" class="p-4 border-t border-slate-200 dark:border-slate-700 w-full text-left max-h-[80px] overflow-y-auto">
-                 <h4 id="lightbox-title" class="font-bold text-lg mb-1 text-primary"></h4>
-                 <p id="lightbox-description" class="text-sm text-slate-700 dark:text-slate-300 mb-2"></p>
-                 <div class="flex items-center text-xs">
-                    <span class="font-semibold mr-2 text-slate-800 dark:text-slate-200">Software:</span>
-                    <span id="lightbox-software" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md font-medium"></span>
+                <!-- Info Overlay -->
+                <div id="lightbox-info" class="absolute bottom-1 md:bottom-2 left-1 md:left-2 right-1 md:right-2 p-4 bg-black/70 rounded-lg text-white backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none">
+                    <div class="flex justify-between items-start gap-4">
+                        <div class="flex-grow">
+                            <h4 id="lightbox-title" class="font-bold text-lg mb-1 text-primary"></h4>
+                            <p id="lightbox-description" class="text-sm text-slate-200 mb-2 leading-snug"></p>
+                            <div class="flex items-center text-xs">
+                                <span class="font-semibold mr-2 text-slate-100">Software:</span>
+                                <span id="lightbox-software" class="bg-slate-200/20 text-slate-100 px-2 py-0.5 rounded-md font-medium"></span>
+                            </div>
+                        </div>
+                        <div id="lightbox-counter" class="text-sm text-slate-300 whitespace-nowrap flex-shrink-0"></div>
+                    </div>
                 </div>
             </div>
+             <!-- Gallery Controls -->
+            <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
+            <button id="lightbox-next" class="hidden absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&gt;</button>
         </div>
     </div>
 
@@ -356,16 +360,16 @@
         ];
         
         const portfolioItems = [
-            { title: 'Modern Farm House', category: 'exteriors', type: 'gallery', src: ['images/fh1.jpg', 'images/fh2.jpg', 'images/fh3.jpg'], thumbnail: 'images/fh1.jpg', description: 'A charming Modern Farm House visualization, emphasizing rustic materials with a clean, contemporary design.', software: 'Twinmotion' },
-            { title: 'Zinco Office', category: 'interiors', type: 'gallery', src: ['images/zo1.jpg', 'images/zo2.jpg', 'images/zo3.jpg', 'images/zo4.jpg', 'images/zo5.jpg', 'images/zo6.jpg', 'images/zo7.jpg', 'images/zo8.jpg'], thumbnail: 'images/zo1.jpg', description: 'A professional and sleek interior rendering of the Zinco Office, focusing on lighting and modern finishes.', software: 'D5 Render' },
-            { title: 'Bungalow Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1n_HTmqzmph8vnPTXrzJNOAbys7AfPe3Z/preview', thumbnail: 'images/bw_thumb.jpg', description: 'An animated walkthrough of a cozy bungalow, showcasing fluid movement and realistic environmental effects.', software: 'Lumion' },
-            { title: 'Modern Villa', category: 'exteriors', type: 'gallery', src: ['images/mv1.jpg', 'images/mv2.jpg', 'images/mv3.jpg', 'images/mv4.jpg'], thumbnail: 'images/mv1.jpg', description: 'A luxurious Modern Villa rendering, highlighting the interplay between architecture and the natural landscape.', software: 'V-Ray' },
-            { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://drive.google.com/file/d/15xRvS4w76hGkQGMsUOx2YHZd_Nulv3t9/preview', thumbnail: 'images/vr_thumb.jpg', description: 'An interactive virtual reality experience, allowing users to explore a detailed architectural space in real-time.', software: 'Twinmotion' },
-            { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['images/sm1.jpg', 'images/sm2.jpg', 'images/sm3.jpg', 'images/sm4.jpg', 'images/sm5.jpg', 'images/sm6.jpg'], thumbnail: 'images/sm1.jpg', description: 'Detailed interior shots of a 2-Storey Modern House, focusing on material textures and interior design.', software: 'Enscape' },
-            { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['images/ph1.jpg', 'images/ph2.jpg', 'images/ph3.jpg', 'images/ph4.jpg'], thumbnail: 'images/ph1.jpg', description: 'A serene visualization of a modern Pool House, capturing the relaxing ambiance of the poolside environment.', software: 'Unreal Engine' },
-            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EI1iNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: 'images/sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
-            { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['images/ch1.jpg', 'images/ch2.jpg', 'images/ch3.jpg', 'images/ch4.jpg'], thumbnail: 'images/ch1.jpg', description: 'A striking visualization of a Contemporary House, defined by bold lines and minimalist aesthetics.', software: 'V-Ray' },
-            { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1Yrn2ipwFKDLcc6TVepIHX-bK8Hvr68Yl/preview', thumbnail: 'images/zo_thumb.jpg', description: 'A cinematic tour through the Zinco Office space, demonstrating the layout and design in a dynamic format.', software: 'Lumion' },
+            { title: 'Modern Farm House', category: 'exteriors', type: 'gallery', src: ['./images/fh1.jpg', './images/fh2.jpg', './images/fh3.jpg'], thumbnail: './images/fh1.jpg', description: 'A charming Modern Farm House visualization, emphasizing rustic materials with a clean, contemporary design.', software: 'Twinmotion' },
+            { title: 'Zinco Office', category: 'interiors', type: 'gallery', src: ['./images/zo1.jpg', './images/zo2.jpg', './images/zo3.jpg', './images/zo4.jpg', './images/zo5.jpg', './images/zo6.jpg', './images/zo7.jpg', './images/zo8.jpg'], thumbnail: './images/zo1.jpg', description: 'A professional and sleek interior rendering of the Zinco Office, focusing on lighting and modern finishes.', software: 'D5 Render' },
+            { title: 'Bungalow Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1n_HTmqzmph8vnPTXrzJNOAbys7AfPe3Z/preview', thumbnail: './images/bw_thumb.jpg', description: 'An animated walkthrough of a cozy bungalow, showcasing fluid movement and realistic environmental effects.', software: 'Lumion' },
+            { title: 'Modern Villa', category: 'exteriors', type: 'gallery', src: ['./images/mv1.jpg', './images/mv2.jpg', './images/mv3.jpg', './images/mv4.jpg'], thumbnail: './images/mv1.jpg', description: 'A luxurious Modern Villa rendering, highlighting the interplay between architecture and the natural landscape.', software: 'V-Ray' },
+            { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://drive.google.com/file/d/15xRvS4w76hGkQGMsUOx2YHZd_Nulv3t9/preview', thumbnail: './images/vr_thumb.jpg', description: 'An interactive virtual reality experience, allowing users to explore a detailed architectural space in real-time.', software: 'Twinmotion' },
+            { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['./images/sm1.jpg', './images/sm2.jpg', './images/sm3.jpg', './images/sm4.jpg', './images/sm5.jpg', './images/sm6.jpg'], thumbnail: './images/sm1.jpg', description: 'Detailed interior shots of a 2-Storey Modern House, focusing on material textures and interior design.', software: 'Enscape' },
+            { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['./images/ph1.jpg', './images/ph2.jpg', './images/ph3.jpg', './images/ph4.jpg'], thumbnail: './images/ph1.jpg', description: 'A serene visualization of a modern Pool House, capturing the relaxing ambiance of the poolside environment.', software: 'Unreal Engine' },
+            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EIiNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: './images/sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
+            { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['./images/ch1.jpg', './images/ch2.jpg', './images/ch3.jpg', './images/ch4.jpg'], thumbnail: './images/ch1.jpg', description: 'A striking visualization of a Contemporary House, defined by bold lines and minimalist aesthetics.', software: 'V-Ray' },
+            { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1Yrn2ipwFKDLcc6TVepIHX-bK8Hvr68Yl/preview', thumbnail: './images/zo_thumb.jpg', description: 'A cinematic tour through the Zinco Office space, demonstrating the layout and design in a dynamic format.', software: 'Lumion' },
         ];
 
 
@@ -463,7 +467,6 @@
                         <p class="text-sm capitalize">${item.category.replace('-', '/')}</p>
                     </div>
                     ${item.type === 'video' || item.type === 'vr-ar' ? `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div>` : ''}
-                    ${item.type === 'gallery' ? `<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg></div>` : ''}
                 </div>
             `;
             portfolioGrid.appendChild(itemEl);
@@ -544,7 +547,16 @@
         const showGalleryImage = (index) => {
             if (index < 0 || index >= currentGallery.length) return;
             currentIndex = index;
-            lightboxBody.innerHTML = `<img src="${currentGallery[currentIndex]}" alt="Portfolio image ${currentIndex + 1}" class="max-w-full max-h-[80vh] object-contain mx-auto rounded-md animate-fade-in">`;
+            const existingImg = lightboxBody.querySelector('img');
+            if(existingImg) existingImg.remove();
+            
+            const img = document.createElement('img');
+            img.src = currentGallery[currentIndex];
+            img.alt = `Portfolio image ${currentIndex + 1}`;
+            img.className = "max-w-full max-h-[88vh] object-contain mx-auto rounded-md animate-fade-in";
+            
+            lightboxBody.insertBefore(img, lightboxInfo);
+
             lightboxCounter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
             
             lightboxPrev.classList.toggle('hidden', currentIndex === 0);
@@ -564,22 +576,20 @@
             lightboxNext.classList.add('hidden');
             lightboxCounter.classList.add('hidden');
 
+            lightboxCounter.textContent = '';
+            lightboxInfo.classList.remove('opacity-0', 'pointer-events-none');
+
             // Populate Info Section
             lightboxTitle.textContent = item.title;
             lightboxDescription.textContent = item.description;
             lightboxSoftware.textContent = item.software;
-            lightboxInfo.classList.remove('hidden');
-
-            if (item.type === 'image') {
-                lightboxBody.innerHTML = `<img src="${item.src}" alt="${item.title}" class="max-w-full max-h-[calc(85vh-80px)] object-contain mx-auto rounded-md">`;
-            } else if (item.type === 'video') {
+            
+            if (item.type === 'video') {
                 const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
-                lightboxBody.innerHTML = `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
             } else if (item.type === 'gallery') {
                 currentGallery = item.src;
                 lightboxCounter.classList.remove('hidden');
-                // Adjust image max height to account for info box
-                lightboxBody.innerHTML = `<img src="${currentGallery[0]}" alt="${item.title}" class="max-w-full max-h-[calc(80vh-80px)] object-contain mx-auto rounded-md animate-fade-in">`;
                 showGalleryImage(0);
             }
             
@@ -587,6 +597,8 @@
             setTimeout(() => {
                 lightbox.style.opacity = '1';
                 lightboxContent.style.transform = 'scale(1)';
+                lightboxInfo.classList.add('opacity-100');
+                lightboxInfo.classList.add('pointer-events-auto');
             }, 10);
         };
 
@@ -603,8 +615,13 @@
             lightboxContent.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 lightbox.classList.add('hidden');
-                lightboxBody.innerHTML = ''; // Stop video playback and clear content
-                currentGallery = []; // Reset gallery
+                // Clear content
+                const content = lightboxBody.querySelector('iframe, img');
+                if(content) content.remove();
+                
+                // Reset gallery and hide info
+                currentGallery = [];
+                lightboxInfo.classList.remove('opacity-100', 'pointer-events-auto');
             }, 300);
         };
         
@@ -660,5 +677,6 @@
     </script>
 </body>
 </html>
+
 
 
