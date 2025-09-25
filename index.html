@@ -196,7 +196,7 @@
                         <p class="mb-6 text-black dark:text-slate-300 leading-relaxed font-medium">
                             I'm Charles Manila, an architectural visualization specialist passionate about transforming architectural concepts into stunning, lifelike visuals. With a keen eye for detail, composition, and lighting, I help architects, designers, and developers communicate their vision with impact and clarity. My expertise spans from static photorealistic renderings to dynamic animations and fully immersive virtual reality experiences.
                         </p>
-                        <a href="#" class="inline-block px-6 py-3 bg-primary text-white rounded-md font-semibold hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 transform hover:scale-105">
+                        <a href="https://drive.google.com/uc?export=download&id=12SxFbSkR7XTgg5gLyMgxPTuDgSoec3Bm" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 bg-primary text-white rounded-md font-semibold hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 transform hover:scale-105">
                             Download Resume
                         </a>
                     </div>
@@ -310,14 +310,23 @@
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden transition-opacity duration-300">
         <div id="lightbox-content" class="bg-card rounded-lg shadow-2xl relative w-full max-w-5xl max-h-[90vh] transform scale-95 transition-transform duration-300 flex flex-col">
-            <button id="lightbox-close" class="absolute -top-3 -right-3 md:top-2 md:right-2 z-20 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all">&times;</button>
+            <button id="lightbox-close" class="absolute -top-3 -right-3 md:top-2 md:right-2 z-30 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all">&times;</button>
             <div id="lightbox-body" class="p-2 md:p-4 flex-grow flex items-center justify-center relative">
                 <!-- Content (Image or Iframe) will be injected here -->
             </div>
-            <!-- Gallery Controls -->
-            <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
-            <button id="lightbox-next" class="hidden absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&gt;</button>
-            <div id="lightbox-counter" class="hidden absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded-md"></div>
+             <!-- Gallery Controls -->
+            <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
+            <button id="lightbox-next" class="hidden absolute right-2 md:right-4 top-[calc(50%-40px)] -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&gt;</button>
+            <div id="lightbox-counter" class="hidden absolute bottom-[calc(0%+90px)] md:bottom-20 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded-md"></div>
+            <!-- Info Section -->
+            <div id="lightbox-info" class="p-4 border-t border-slate-200 dark:border-slate-700 w-full text-left max-h-[80px] overflow-y-auto">
+                 <h4 id="lightbox-title" class="font-bold text-lg mb-1 text-primary"></h4>
+                 <p id="lightbox-description" class="text-sm text-slate-700 dark:text-slate-300 mb-2"></p>
+                 <div class="flex items-center text-xs">
+                    <span class="font-semibold mr-2 text-slate-800 dark:text-slate-200">Software:</span>
+                    <span id="lightbox-software" class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md font-medium"></span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -347,16 +356,16 @@
         ];
         
         const portfolioItems = [
-            { title: 'Modern Farm House', category: 'exteriors', type: 'gallery', src: ['fh1.jpg', 'fh2.jpg', 'fh3.jpg'] },
-            { title: 'Zinco Office', category: 'interiors', type: 'gallery', src: ['zo1.jpg', 'zo2.jpg', 'zo3.jpg', 'zo4.jpg', 'zo5.jpg', 'zo6.jpg', 'zo7.jpg', 'zo8.jpg'] },
-            { title: 'Bungalow Walkthrough', category: 'animations', type: 'video', src: 'https://www.youtube.com/embed/ysz5S6PUM-U' },
-            { title: 'Modern Villa', category: 'exteriors', type: 'gallery', src: ['mv1.jpg', 'mv2.jpg', 'mv3.jpg', 'mv4.jpg'] },
-            { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://www.youtube.com/embed/RAWadgppAeI' },
-            { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['sm1.jpg', 'sm2.jpg', 'sm3.jpg', 'sm4.jpg', 'sm5.jpg', 'sm6.jpg'] },
-            { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['ph1.jpg', 'ph2.jpg', 'ph3.jpg', 'ph4.jpg'] },
-            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://www.youtube.com/embed/G3e-cpL7ofc' },
-            { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['ch1.jpg', 'ch2.jpg', 'ch3.jpg', 'ch4.jpg'] },
-            { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://www.youtube.com/embed/LXb3EKWsInQ' },
+            { title: 'Modern Farm House', category: 'exteriors', type: 'gallery', src: ['fh1.jpg', 'fh2.jpg', 'fh3.jpg'], thumbnail: 'fh1.jpg', description: 'A charming Modern Farm House visualization, emphasizing rustic materials with a clean, contemporary design.', software: 'Twinmotion' },
+            { title: 'Zinco Office', category: 'interiors', type: 'gallery', src: ['zo1.jpg', 'zo2.jpg', 'zo3.jpg', 'zo4.jpg', 'zo5.jpg', 'zo6.jpg', 'zo7.jpg', 'zo8.jpg'], thumbnail: 'zo1.jpg', description: 'A professional and sleek interior rendering of the Zinco Office, focusing on lighting and modern finishes.', software: 'D5 Render' },
+            { title: 'Bungalow Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1n_HTmqzmph8vnPTXrzJNOAbys7AfPe3Z/preview', thumbnail: 'bw_thumb.jpg', description: 'An animated walkthrough of a cozy bungalow, showcasing fluid movement and realistic environmental effects.', software: 'Lumion' },
+            { title: 'Modern Villa', category: 'exteriors', type: 'gallery', src: ['mv1.jpg', 'mv2.jpg', 'mv3.jpg', 'mv4.jpg'], thumbnail: 'mv1.jpg', description: 'A luxurious Modern Villa rendering, highlighting the interplay between architecture and the natural landscape.', software: 'V-Ray' },
+            { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://drive.google.com/file/d/15xRvS4w76hGkQGMsUOx2YHZd_Nulv3t9/preview', thumbnail: 'vr_thumb.jpg', description: 'An interactive virtual reality experience, allowing users to explore a detailed architectural space in real-time.', software: 'Twinmotion' },
+            { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['sm1.jpg', 'sm2.jpg', 'sm3.jpg', 'sm4.jpg', 'sm5.jpg', 'sm6.jpg'], thumbnail: 'sm1.jpg', description: 'Detailed interior shots of a 2-Storey Modern House, focusing on material textures and interior design.', software: 'Enscape' },
+            { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['ph1.jpg', 'ph2.jpg', 'ph3.jpg', 'ph4.jpg'], thumbnail: 'ph1.jpg', description: 'A serene visualization of a modern Pool House, capturing the relaxing ambiance of the poolside environment.', software: 'Unreal Engine' },
+            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EI1iNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: 'sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
+            { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['ch1.jpg', 'ch2.jpg', 'ch3.jpg', 'ch4.jpg'], thumbnail: 'ch1.jpg', description: 'A striking visualization of a Contemporary House, defined by bold lines and minimalist aesthetics.', software: 'V-Ray' },
+            { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1Yrn2ipwFKDLcc6TVepIHX-bK8Hvr68Yl/preview', thumbnail: 'zo_thumb.jpg', description: 'A cinematic tour through the Zinco Office space, demonstrating the layout and design in a dynamic format.', software: 'Lumion' },
         ];
 
 
@@ -444,7 +453,7 @@
             itemEl.dataset.category = item.category;
             itemEl.dataset.index = index;
             
-            const thumbnailUrl = Array.isArray(item.src) ? item.src[0] : item.src;
+            const thumbnailUrl = item.thumbnail || (Array.isArray(item.src) ? item.src[0] : 'https://placehold.co/600x400/0f172a/60a5fa?text=Video');
 
             itemEl.innerHTML = `
                 <img src="${thumbnailUrl}" alt="${item.title}" class="w-full h-60 object-cover transform transition-transform duration-500 group-hover:scale-110" loading="lazy">
@@ -524,6 +533,10 @@
         const lightboxPrev = document.getElementById('lightbox-prev');
         const lightboxNext = document.getElementById('lightbox-next');
         const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxInfo = document.getElementById('lightbox-info');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDescription = document.getElementById('lightbox-description');
+        const lightboxSoftware = document.getElementById('lightbox-software');
 
         let currentGallery = [];
         let currentIndex = 0;
@@ -551,13 +564,22 @@
             lightboxNext.classList.add('hidden');
             lightboxCounter.classList.add('hidden');
 
+            // Populate Info Section
+            lightboxTitle.textContent = item.title;
+            lightboxDescription.textContent = item.description;
+            lightboxSoftware.textContent = item.software;
+            lightboxInfo.classList.remove('hidden');
+
             if (item.type === 'image') {
-                lightboxBody.innerHTML = `<img src="${item.src}" alt="${item.title}" class="max-w-full max-h-[85vh] object-contain mx-auto rounded-md">`;
+                lightboxBody.innerHTML = `<img src="${item.src}" alt="${item.title}" class="max-w-full max-h-[calc(85vh-80px)] object-contain mx-auto rounded-md">`;
             } else if (item.type === 'video') {
-                lightboxBody.innerHTML = `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${item.src}?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
+                lightboxBody.innerHTML = `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
             } else if (item.type === 'gallery') {
                 currentGallery = item.src;
                 lightboxCounter.classList.remove('hidden');
+                // Adjust image max height to account for info box
+                lightboxBody.innerHTML = `<img src="${currentGallery[0]}" alt="${item.title}" class="max-w-full max-h-[calc(80vh-80px)] object-contain mx-auto rounded-md animate-fade-in">`;
                 showGalleryImage(0);
             }
             
@@ -638,6 +660,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
