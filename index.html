@@ -311,6 +311,9 @@
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden transition-opacity duration-300">
         <div id="lightbox-content" class="bg-card rounded-lg shadow-2xl relative w-full max-w-6xl max-h-[90vh] transform scale-95 transition-transform duration-300 flex flex-col">
             <button id="lightbox-close" class="absolute -top-3 -right-3 md:top-2 md:right-2 z-30 bg-white text-black h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all">&times;</button>
+            <button id="lightbox-fullscreen" class="hidden absolute top-2 left-2 z-30 bg-black/30 text-white h-8 w-8 rounded-full flex items-center justify-center hover:bg-black/50 transition-all backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 1v4m0 0h-4m4 0l-5-5" /></svg>
+            </button>
             <div id="lightbox-body" class="p-1 md:p-2 flex-grow flex items-center justify-center relative w-full h-full">
                 <!-- Content (Image or Iframe) will be injected here -->
                 <!-- Info Overlay -->
@@ -367,7 +370,7 @@
             { title: 'Twinmotion VR Demo', category: 'vr-ar', type: 'video', src: 'https://drive.google.com/file/d/15xRvS4w76hGkQGMsUOx2YHZd_Nulv3t9/preview', thumbnail: './images/vr_thumb.jpg', description: 'An interactive virtual reality experience, allowing users to explore a detailed architectural space in real-time.', software: 'Twinmotion' },
             { title: '2-Storey Modern House', category: 'interiors', type: 'gallery', src: ['./images/sm1.jpg', './images/sm2.jpg', './images/sm3.jpg', './images/sm4.jpg', './images/sm5.jpg', './images/sm6.jpg'], thumbnail: './images/sm1.jpg', description: 'Detailed interior shots of a 2-Storey Modern House, focusing on material textures and interior design.', software: 'Twinmotion, Unreal Engine' },
             { title: 'Pool House', category: 'exteriors', type: 'gallery', src: ['./images/ph1.jpg', './images/ph2.jpg', './images/ph3.jpg', './images/ph4.jpg'], thumbnail: './images/ph1.jpg', description: 'A serene visualization of a modern Pool House, capturing the relaxing ambiance of the poolside environment.', software: 'Twinmotion' },
-            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EIiNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: './images/sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
+            { title: '2-Storey Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/15FtJ3EI1iNdfdW0mebq8VXS8H6gvMMAr/preview', thumbnail: './images/sw_thumb.jpg', description: 'A complete architectural animation of a 2-storey residence, from exterior views to interior details.', software: 'Twinmotion' },
             { title: 'Contemporary House', category: 'exteriors', type: 'gallery', src: ['./images/ch1.jpg', './images/ch2.jpg', './images/ch3.jpg', './images/ch4.jpg'], thumbnail: './images/ch1.jpg', description: 'A striking visualization of a Contemporary House, defined by bold lines and minimalist aesthetics.', software: 'V-Ray' },
             { title: 'Zinco Office Walkthrough', category: 'animations', type: 'video', src: 'https://drive.google.com/file/d/1Yrn2ipwFKDLcc6TVepIHX-bK8Hvr68Yl/preview', thumbnail: './images/zo_thumb.jpg', description: 'A cinematic tour through the Zinco Office space, demonstrating the layout and design in a dynamic format.', software: 'Lumion' },
         ];
@@ -533,6 +536,7 @@
         const lightboxContent = document.getElementById('lightbox-content');
         const lightboxBody = document.getElementById('lightbox-body');
         const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxFullscreen = document.getElementById('lightbox-fullscreen');
         const lightboxPrev = document.getElementById('lightbox-prev');
         const lightboxNext = document.getElementById('lightbox-next');
         const lightboxCounter = document.getElementById('lightbox-counter');
@@ -571,13 +575,21 @@
             if (currentIndex < currentGallery.length - 1) showGalleryImage(currentIndex + 1);
         });
         
+        lightboxFullscreen.addEventListener('click', () => {
+            const iframe = lightboxBody.querySelector('iframe');
+            if (iframe && iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            }
+        });
+
         const openLightbox = (item) => {
             lightboxPrev.classList.add('hidden');
             lightboxNext.classList.add('hidden');
             lightboxCounter.classList.add('hidden');
+            lightboxFullscreen.classList.add('hidden');
 
             lightboxCounter.textContent = '';
-            lightboxInfo.classList.remove('opacity-0', 'pointer-events-none');
+            lightboxInfo.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
 
             // Populate Info Section
             lightboxTitle.textContent = item.title;
@@ -585,8 +597,14 @@
             lightboxSoftware.textContent = item.software;
             
             if (item.type === 'video') {
-                const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
-                lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
+                if (item.src === '#') {
+                    lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full flex items-center justify-center text-center p-4 bg-slate-100 dark:bg-slate-800 rounded-md"><p class="font-medium">The video for this project is currently unavailable.</p></div>`);
+                    lightboxInfo.classList.add('hidden');
+                } else {
+                    const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
+                    lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
+                    lightboxFullscreen.classList.remove('hidden');
+                }
             } else if (item.type === 'gallery') {
                 currentGallery = item.src;
                 lightboxCounter.classList.remove('hidden');
@@ -616,12 +634,13 @@
             setTimeout(() => {
                 lightbox.classList.add('hidden');
                 // Clear content
-                const content = lightboxBody.querySelector('iframe, img');
+                const content = lightboxBody.querySelector('iframe, img, div');
                 if(content) content.remove();
                 
                 // Reset gallery and hide info
                 currentGallery = [];
                 lightboxInfo.classList.remove('opacity-100', 'pointer-events-auto');
+                lightboxFullscreen.classList.add('hidden');
             }, 300);
         };
         
@@ -677,6 +696,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
