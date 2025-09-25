@@ -316,20 +316,29 @@
             </button>
             <div id="lightbox-body" class="p-1 md:p-2 flex-grow flex items-center justify-center relative w-full h-full">
                 <!-- Content (Image or Iframe) will be injected here -->
-                <!-- Info Overlay -->
-                <div id="lightbox-info" class="absolute bottom-1 md:bottom-2 left-1 md:left-2 right-1 md:right-2 p-4 bg-black/70 rounded-lg text-white backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none">
+                <!-- Info Overlay for Galleries -->
+                <div id="lightbox-info-overlay" class="hidden absolute bottom-1 md:bottom-2 left-1 md:left-2 right-1 md:right-2 p-4 bg-black/70 rounded-lg text-white backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none">
                     <div class="flex justify-between items-start gap-4">
                         <div class="flex-grow">
-                            <h4 id="lightbox-title" class="font-bold text-lg mb-1 text-primary"></h4>
-                            <p id="lightbox-description" class="text-sm text-slate-200 mb-2 leading-snug"></p>
+                            <h4 class="font-bold text-lg mb-1 text-primary lightbox-title"></h4>
+                            <p class="text-sm text-slate-200 mb-2 leading-snug lightbox-description"></p>
                             <div class="flex items-center text-xs">
                                 <span class="font-semibold mr-2 text-slate-100">Software:</span>
-                                <span id="lightbox-software" class="bg-slate-200/20 text-slate-100 px-2 py-0.5 rounded-md font-medium"></span>
+                                <span class="bg-slate-200/20 text-slate-100 px-2 py-0.5 rounded-md font-medium lightbox-software"></span>
                             </div>
                         </div>
-                        <div id="lightbox-counter" class="text-sm text-slate-300 whitespace-nowrap flex-shrink-0"></div>
+                        <div class="text-sm text-slate-300 whitespace-nowrap flex-shrink-0 lightbox-counter"></div>
                     </div>
                 </div>
+            </div>
+            <!-- Info Below for Videos -->
+            <div id="lightbox-info-below" class="hidden p-4 border-t border-slate-200 dark:border-slate-700 w-full text-left">
+                <h4 class="font-bold text-lg mb-1 text-primary lightbox-title"></h4>
+                <p class="text-sm text-slate-700 dark:text-slate-300 mb-2 lightbox-description"></p>
+                <div class="flex items-center text-xs">
+                   <span class="font-semibold mr-2 text-slate-800 dark:text-slate-200">Software:</span>
+                   <span class="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md font-medium lightbox-software"></span>
+               </div>
             </div>
              <!-- Gallery Controls -->
             <button id="lightbox-prev" class="hidden absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 text-white h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/40 transition-all text-2xl pb-1">&lt;</button>
@@ -539,14 +548,24 @@
         const lightboxFullscreen = document.getElementById('lightbox-fullscreen');
         const lightboxPrev = document.getElementById('lightbox-prev');
         const lightboxNext = document.getElementById('lightbox-next');
-        const lightboxCounter = document.getElementById('lightbox-counter');
-        const lightboxInfo = document.getElementById('lightbox-info');
-        const lightboxTitle = document.getElementById('lightbox-title');
-        const lightboxDescription = document.getElementById('lightbox-description');
-        const lightboxSoftware = document.getElementById('lightbox-software');
+        const lightboxInfoOverlay = document.getElementById('lightbox-info-overlay');
+        const lightboxInfoBelow = document.getElementById('lightbox-info-below');
+        
+        // Selectors for all info elements
+        const lightboxTitles = document.querySelectorAll('.lightbox-title');
+        const lightboxDescriptions = document.querySelectorAll('.lightbox-description');
+        const lightboxSoftwares = document.querySelectorAll('.lightbox-software');
+        const lightboxCounters = document.querySelectorAll('.lightbox-counter');
+
 
         let currentGallery = [];
         let currentIndex = 0;
+
+        const populateInfo = (item) => {
+            lightboxTitles.forEach(el => el.textContent = item.title);
+            lightboxDescriptions.forEach(el => el.textContent = item.description);
+            lightboxSoftwares.forEach(el => el.textContent = item.software);
+        };
 
         const showGalleryImage = (index) => {
             if (index < 0 || index >= currentGallery.length) return;
@@ -559,9 +578,9 @@
             img.alt = `Portfolio image ${currentIndex + 1}`;
             img.className = "max-w-full max-h-[88vh] object-contain mx-auto rounded-md animate-fade-in";
             
-            lightboxBody.insertBefore(img, lightboxInfo);
+            lightboxBody.insertBefore(img, lightboxInfoOverlay);
 
-            lightboxCounter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+            lightboxCounters.forEach(el => el.textContent = `${currentIndex + 1} / ${currentGallery.length}`);
             
             lightboxPrev.classList.toggle('hidden', currentIndex === 0);
             lightboxNext.classList.toggle('hidden', currentIndex === currentGallery.length - 1);
@@ -585,29 +604,26 @@
         const openLightbox = (item) => {
             lightboxPrev.classList.add('hidden');
             lightboxNext.classList.add('hidden');
-            lightboxCounter.classList.add('hidden');
             lightboxFullscreen.classList.add('hidden');
 
-            lightboxCounter.textContent = '';
-            lightboxInfo.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
-
-            // Populate Info Section
-            lightboxTitle.textContent = item.title;
-            lightboxDescription.textContent = item.description;
-            lightboxSoftware.textContent = item.software;
+            populateInfo(item);
             
-            if (item.type === 'video') {
+            if (item.type === 'video' || item.type === 'vr-ar') {
+                lightboxInfoOverlay.classList.add('hidden');
+                lightboxInfoBelow.classList.remove('hidden');
+
                 if (item.src === '#') {
                     lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full flex items-center justify-center text-center p-4 bg-slate-100 dark:bg-slate-800 rounded-md"><p class="font-medium">The video for this project is currently unavailable.</p></div>`);
-                    lightboxInfo.classList.add('hidden');
+                    lightboxInfoBelow.classList.add('hidden');
                 } else {
                     const videoSrc = item.src.includes('youtube.com') ? `${item.src}?autoplay=1&rel=0` : item.src;
                     lightboxBody.insertAdjacentHTML('afterbegin', `<div class="w-full h-full aspect-video"><iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
                     lightboxFullscreen.classList.remove('hidden');
                 }
             } else if (item.type === 'gallery') {
+                lightboxInfoOverlay.classList.remove('hidden');
+                lightboxInfoBelow.classList.add('hidden');
                 currentGallery = item.src;
-                lightboxCounter.classList.remove('hidden');
                 showGalleryImage(0);
             }
             
@@ -615,8 +631,9 @@
             setTimeout(() => {
                 lightbox.style.opacity = '1';
                 lightboxContent.style.transform = 'scale(1)';
-                lightboxInfo.classList.add('opacity-100');
-                lightboxInfo.classList.add('pointer-events-auto');
+                if (item.type === 'gallery') {
+                    lightboxInfoOverlay.classList.add('opacity-100', 'pointer-events-auto');
+                }
             }, 10);
         };
 
@@ -639,7 +656,9 @@
                 
                 // Reset gallery and hide info
                 currentGallery = [];
-                lightboxInfo.classList.remove('opacity-100', 'pointer-events-auto');
+                lightboxInfoOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+                lightboxInfoOverlay.classList.add('hidden');
+                lightboxInfoBelow.classList.add('hidden');
                 lightboxFullscreen.classList.add('hidden');
             }, 300);
         };
@@ -696,6 +715,7 @@
     </script>
 </body>
 </html>
+
 
 
 
