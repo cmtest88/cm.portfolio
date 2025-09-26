@@ -207,7 +207,7 @@
                 <!-- Tools Section -->
                 <div class="mt-20 fade-in-section">
                     <h3 class="text-2xl font-bold text-center mb-10">Tools & Software</h3>
-                    <div id="tools-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                    <div id="tools-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
                         <!-- Tools will be injected by JS -->
                     </div>
                 </div>
@@ -423,10 +423,10 @@
         if (toolsContainer) {
             const logoScales = {
                 'Twinmotion': 'scale-[2]',
-                'D5 Render': 'scale-[2.75]',
+                'D5 Render': 'scale-[2.25]',
                 'Enscape': 'scale-[2.75]',
                 'Lumion': 'scale-[1.75]',
-                'Unreal Engine': 'scale-25',
+                'Unreal Engine': 'scale-[.1]',
                 'V-Ray': 'scale-[2]',
                 'SketchUp': 'scale-[2.25]',
                 'AutoCAD': 'scale-[2]'
@@ -436,7 +436,7 @@
                 const scaleClass = logoScales[tool.name] || 'scale-100'; // Default to 100% if not specified
 
                 toolsContainer.innerHTML += `
-                    <div class="bg-card border border-slate-200 rounded-lg p-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-110 flex items-center justify-center h-24 overflow-hidden" title="${tool.name}">
+                    <div class="bg-card border border-slate-200 rounded-lg p-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-110 flex items-center justify-center h-20 overflow-hidden" title="${tool.name}">
                        <img src="${tool.logo}" alt="${tool.name} Logo" class="h-full w-full object-contain transform ${scaleClass} transition-transform duration-300">
                     </div>
                 `;
@@ -698,6 +698,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
