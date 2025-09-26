@@ -122,7 +122,7 @@
 
     <!-- Scroll-to-top Button -->
     <button id="scrollToTopBtn" class="fixed bottom-5 right-5 z-50 p-3 rounded-full bg-primary text-white shadow-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 ring-primary transition-all duration-300 opacity-0 translate-y-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
     </button>
@@ -149,7 +149,7 @@
             <!-- Mobile Menu Button -->
             <div class="md:hidden flex items-center">
                 <button id="mobile-menu-button" class="p-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
@@ -421,9 +421,19 @@
         
         const toolsContainer = document.getElementById('tools-container');
         if (toolsContainer) {
+            const logoScales = {
+                'Twinmotion': 'scale-[2.75]',
+                'D5 Render': 'scale-[2.75]',
+                'Enscape': 'scale-[2.25]',
+                'Lumion': 'scale-[1.75]',
+                'Unreal Engine': 'scale-[3]',
+                'V-Ray': 'scale-100',
+                'SketchUp': 'scale-[2.25]',
+                'AutoCAD': 'scale-[2]'
+            };
+
             tools.forEach(tool => {
-                // Apply a larger scale to most logos, but keep V-Ray at its normal size.
-                const scaleClass = tool.name === 'V-Ray' ? 'scale-100' : 'scale-[1.75]';
+                const scaleClass = logoScales[tool.name] || 'scale-100'; // Default to 100% if not specified
 
                 toolsContainer.innerHTML += `
                     <div class="bg-card border border-slate-200 rounded-lg p-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-110 flex items-center justify-center h-24 overflow-hidden" title="${tool.name}">
