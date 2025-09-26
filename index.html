@@ -423,8 +423,8 @@
         if (toolsContainer) {
             tools.forEach(tool => {
                 toolsContainer.innerHTML += `
-                    <div class="bg-card border border-slate-200 rounded-lg p-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-110 flex items-center justify-center h-32" title="${tool.name}">
-                       <img src="${tool.logo}" alt="${tool.name} Logo" class="h-full w-full object-contain">
+                    <div class="bg-card border border-slate-200 rounded-lg p-2 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-110 flex items-center justify-center h-24 overflow-hidden" title="${tool.name}">
+                       <img src="${tool.logo}" alt="${tool.name} Logo" class="h-full w-full object-contain transform scale-125">
                     </div>
                 `;
             });
