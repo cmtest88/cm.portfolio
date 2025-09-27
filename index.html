@@ -10,6 +10,20 @@
     <meta name="keywords" content="Architectural Visualization, Archviz, 3D Rendering, Photorealistic Renders, Architectural Animation, VR for Architecture, AR for Architecture, Charles Manila, Twinmotion, V-Ray, D5 Render, Lumion, Enscape, Unreal Engine">
     <meta name="author" content="Charles Manila">
 
+    <!-- Open Graph / Facebook Meta Tags for Link Thumbnail -->
+    <meta property="og:title" content="CM Archviz Studio - by Charles Manila | Architectural Visualization">
+    <meta property="og:description" content="Specializing in photorealistic renderings, animations, and immersive VR/AR experiences.">
+    <!-- IMPORTANT: Replace with the actual URL to your thumbnail image -->
+    <meta property="og:image" content="./images/link-thumbnail.png">
+    <meta property="og:url" content="https://your-website-url.com"> <!-- IMPORTANT: Replace with your actual website URL -->
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- IMPORTANT: Replace with the actual URL to your thumbnail image -->
+    <meta name="twitter:image" content="./images/link-thumbnail.png">
+
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>CM</text></svg>">
 
@@ -132,9 +146,13 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <!-- Logo -->
             <a href="#home" class="group cursor-pointer">
-                <div class="transition-transform duration-300 group-hover:scale-105">
-                    <h1 class="text-xl md:text-2xl font-bold tracking-wider">CM Archviz Studio</h1>
-                    <p class="text-xs -mt-1">by Charles Manila</p>
+                <div class="flex items-center gap-3 transition-transform duration-300 group-hover:scale-105">
+                    <!-- Brand Logo Placeholder -->
+                    <img src="./images/brand-logo.png" alt="CM Archviz Studio Logo" class="h-10 w-10 object-contain">
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold tracking-wider">CM Archviz Studio</h1>
+                        <p class="text-xs -mt-1">by Charles Manila</p>
+                    </div>
                 </div>
             </a>
 
@@ -287,9 +305,15 @@
     <!-- Footer -->
     <footer class="bg-card py-8">
         <div class="container mx-auto px-6 text-center text-slate-800">
-            <div class="mb-4">
-                <h3 class="text-lg font-bold text-primary">CM Archviz Studio</h3>
-                <p class="text-sm">by Charles Manila</p>
+            <div class="mb-4 flex flex-col items-center">
+                 <div class="flex items-center gap-3">
+                    <!-- Brand Logo Placeholder -->
+                    <img src="./images/brand-logo.png" alt="CM Archviz Studio Logo" class="h-8 w-8 object-contain">
+                    <div>
+                        <h3 class="text-lg font-bold text-primary">CM Archviz Studio</h3>
+                        <p class="text-sm">by Charles Manila</p>
+                    </div>
+                </div>
             </div>
             <div id="footer-socials" class="flex justify-center space-x-6 mb-4">
                 <!-- Social icons injected by JS -->
@@ -698,12 +722,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
